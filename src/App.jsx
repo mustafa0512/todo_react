@@ -32,10 +32,8 @@ function App() {
   const [todos, setTodos] = useState(arr)
   const [open, setOpen] = useState(false);
   const [changeItem, setChangeItem] = useState();
-  const [changeCard, setChangeCard] = useState();
 
   const removeCard = (id) => {
-
 
     let filtered = todos.filter(el => el.id !== id)
 
@@ -43,7 +41,13 @@ function App() {
   }
 
   const editCard = (data) => {
-    setChangeCard(data);
+    todos.filter(item => {
+      if (item.id === data.id){
+        item.name = data.changeText
+      }
+    })
+
+    console.log(data);
   }
 
   const handleOpen = (item) => {

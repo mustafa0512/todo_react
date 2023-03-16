@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
@@ -19,7 +19,7 @@ const style = {
 
 export default function MediaModal({ handleClose, open, data, editCard }) {
 
-    const [value, setValue] = useState('')
+    const [value, setValue] = useState()
 
     return (
         <div>
@@ -32,8 +32,8 @@ export default function MediaModal({ handleClose, open, data, editCard }) {
             >
                 <Box sx={style}>
                     <form >
-                        <TextField onKeyUp={(e) => setValue(e.target.value)} placeholder={data?.name} sx={{ width: "300px", height: '30px', marginLeft: "20px", borderRadius: '20px', color: 'red' }} id="filled-basic" label="Let's change " variant="standard" name='name' />
-                        <Button onClick={() => editCard({id: data.id, changeText: value })} variant="outlined" startIcon={<ModeEditOutlineIcon />} sx={{ height: "46px", marginLeft: "20px" }} >edit</Button>
+                        <TextField onKeyUp={(e) => setValue(e.target.value)} placeholder={data?.name} sx={{ width: "300px", height: '30px', marginLeft: "20px", borderRadius: '20px', color: 'red' }} label="Let's change " variant="standard" name='name' />
+                        <Button onClick={() => editCard({ id: data?.id, changeText: value })} variant="outlined" startIcon={<ModeEditOutlineIcon />} sx={{ height: "46px", marginLeft: "20px" }}  >edit</Button>
                     </form>
                 </Box>
             </Modal>
