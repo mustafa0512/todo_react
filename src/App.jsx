@@ -42,9 +42,14 @@ function App() {
 
   const editCard = (data) => {
     todos.filter(item => {
-      if (item.id === data.id){
+      if (item.id === data.id) {
+
         item.name = data.changeText
+
       }
+
+
+      handleClose()
     })
 
     console.log(data);
@@ -59,9 +64,9 @@ function App() {
   const submit = (evt) => {
     evt.preventDefault()
 
-
     let todo = {
       id: uuidv4(),
+      link: 'new.link' ,
       img: "https://avatars.mds.yandex.net/i?id=072aa5a23f21ab8da49c67a024bf07fb86153e31-8427500-images-thumbs&n=13",
     }
 
