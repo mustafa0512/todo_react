@@ -4,6 +4,8 @@ import { Button, FormControl, Grid, TextField } from '@mui/material';
 import MediaCard from './components/Card';
 import { v4 as uuidv4 } from 'uuid';
 import MediaModal from './components/Modal';
+import { useForm } from "react-hook-form";
+
 
 const arr = [
   {
@@ -29,6 +31,18 @@ const arr = [
 
 function App() {
 
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const onSubmit = data => {
+    data = {
+      id: uuidv4(),
+      link: 'new.link',
+      img: "https://avatars.mds.yandex.net/i?id=072aa5a23f21ab8da49c67a024bf07fb86153e31-8427500-images-thumbs&n=13",
+      ...data
+    }
+    setTodos([...todos, data])
+  }
+
+
   const [todos, setTodos] = useState(arr)
   const [open, setOpen] = useState(false);
   const [changeItem, setChangeItem] = useState();
@@ -41,14 +55,13 @@ function App() {
   }
 
   const editCard = (data) => {
+
     todos.filter(item => {
       if (item.id === data.id) {
 
         item.name = data.changeText
 
       }
-
-
       handleClose()
     })
 
@@ -61,37 +74,15 @@ function App() {
   }
   const handleClose = () => setOpen(false);
 
-  const submit = (evt) => {
-    evt.preventDefault()
-
-    let todo = {
-      id: uuidv4(),
-      link: 'new.link' ,
-      img: "https://avatars.mds.yandex.net/i?id=072aa5a23f21ab8da49c67a024bf07fb86153e31-8427500-images-thumbs&n=13",
-    }
-
-    let fm = new FormData(evt.target)
-
-    fm.forEach((value, key) => {
-      todo[key] = value
-    })
-
-
-
-    setTodos([...todos, todo])
-
-  }
-
   return (
     <>
+
       <center>
-        <form onSubmit={submit} >
-          <TextField placeholder="To-do something" sx={{ width: "300px", height: '30px', marginLeft: "20px", borderRadius: '20px' }} id="filled-basic" label="Let's create" variant="standard" name='name' />
+        <form onSubmit={handleSubmit(onSubmit)} >
+          <TextField error={!!errors.name} placeholder="To-do something" sx={{ width: "300px", height: '30px', marginLeft: "20px", borderRadius: '20px' }} id="filled-basic" label={errors.name ? "this field is required" : "Let's create"} variant="standard" {...register("name", { pattern: /^[A-Za-z]+$/i })} />
           <Button type='submit' variant="contained" sx={{ height: "46px", marginLeft: "20px" }} >create</Button>
         </form>
       </center>
-
-
 
       <Grid container rowSpacing={1} columnSpacing={1} sx={{ width: "1200px", margin: '0 auto' }}>
 
@@ -104,7 +95,6 @@ function App() {
         }
 
       </Grid>
-
 
       <MediaModal editCard={editCard} data={changeItem} open={open} handleClose={handleClose} />
     </>
